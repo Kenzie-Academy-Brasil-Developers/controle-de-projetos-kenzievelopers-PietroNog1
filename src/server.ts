@@ -1,9 +1,11 @@
 import app from './app'
-import { startDatabase } from './database'
+import { startDatabase } from './database/database';
 
-const PORT = Number(process.env.PORT) || 3000
+const PORT = Number(process.env.PORT) || 3000;
 
-app.listen(PORT, async () => {
-    await startDatabase()
-    console.log(`Server is running on port ${PORT}.`)
-})
+const MsgServer = `Server running on http://localhost:${PORT}`;
+
+app.listen(PORT, async() => {
+    await startDatabase() 
+    console.log(MsgServer)
+});
