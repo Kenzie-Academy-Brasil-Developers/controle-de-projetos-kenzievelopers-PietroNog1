@@ -2,7 +2,7 @@ import { IDeveloper,IDevelopersCreate, IDevelopersResult, IDevelopersRetriveResu
 import format from "pg-format";
 import { client } from "../database/database";
 
-const create = async(payload:IDevelopersCreate):Promise<IDeveloper> => {
+const createDeveloper = async(payload:IDevelopersCreate):Promise<IDeveloper> => {
     const queryFormat:string = format(
         'INSERT INTO "developers" (%I) VALUES (%L) RETURNING *;',
         Object.keys(payload),
@@ -13,7 +13,7 @@ const create = async(payload:IDevelopersCreate):Promise<IDeveloper> => {
     return query.rows[0]
 }
 
-const retrive = async(developerId:string):Promise<IDevelopersRetriveResult> =>{
+const retriveDeveloper = async(developerId:string):Promise<IDevelopersRetriveResult> =>{
     const query: IDevelopersResult = await client.query(
         'SELECT * FROM "developers" WHERE "id" = $1',[developerId]
     )
@@ -30,17 +30,17 @@ const retrive = async(developerId:string):Promise<IDevelopersRetriveResult> =>{
         developerName: developer.name,
         developerEmail: developer.email,
         developerInfoDeveloperSince: infos.developersSince || null,
-        developerInfoPreferrdOS: infos.preferredOS || null
+        developerInfoPreferredOS: infos.preferredOS || null
     }
 
     return finalObj 
 }
 
-const destroy = async (developerId:string):Promise<void> => {
+const destroyDeveloper = async (developerId:string):Promise<void> => {
     await client.query('DELETE FROM "developers" WHERE "id" = $1',[developerId])
 }
 
-const update = async (payload:IDevelopersUpdadte, developerId:string):Promise<IDeveloper> =>{
+const updateDeveloper = async (payload:IDevelopersUpdadte, developerId:string):Promise<IDeveloper> =>{
     const queryFormat:string = format(
         'UPDATE "developers" SET (%I) = ROW (%L) WHERE "id" = $1 RETURNING *;',
         Object.keys(payload),
@@ -52,7 +52,7 @@ const update = async (payload:IDevelopersUpdadte, developerId:string):Promise<ID
     return query.rows[0]
 }
 
-const creatInfos = async (payload:IDevelopersInfosCreate):Promise<IDeveloperInfos> =>{
+const creatInfosDeveloper = async (payload:IDevelopersInfosCreate):Promise<IDeveloperInfos> =>{
     const queryFormat:string = format(
         'INSERT INTO "developerInfos" (%I) VALUES (%L) RETURNING *;',
         Object.keys(payload),
@@ -64,4 +64,4 @@ const creatInfos = async (payload:IDevelopersInfosCreate):Promise<IDeveloperInfo
     return query.rows[0]
 }
 
-export default { create, retrive, destroy, update, creatInfos}
+export default { creatInfosDeveloper, createDeveloper, destroyDeveloper, retriveDeveloper, updateDeveloper}

@@ -26,7 +26,7 @@ interface IDevelopersRetriveResult{
     developerName: string;
     developerEmail: string;
     developerInfoDeveloperSince: Date | null;
-    developerInfoPreferrdOS: "Windows" | "Linux" | "MacOS" | null;
+    developerInfoPreferredOS: "Windows" | "Linux" | "MacOS" | null;
 }
 
 
